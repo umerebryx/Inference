@@ -74,7 +74,7 @@ def showarray(a, fmt='jpeg'):
 def resize(img, size):
     img = tf.expand_dims(img, 0)
     return tf.image.resize_bilinear(img, size)[0,:,:,:]
-resize = tffunc(np.float32, np.int32)(resize)
+#resize = tffunc(np.float32, np.int32)(resize)
 
 def render_deepdream(t_obj, img0=img_noise,
                      iter_n=10, step=1.5, octave_n=4, octave_scale=1.4):
@@ -85,7 +85,10 @@ def render_deepdream(t_obj, img0=img_noise,
     img = img0
     octaves = []
     for i in range(octave_n-1):
-        hw = img.shape[:2]
+        try:
+           hw = img.shape[:2]
+        except: 
+           hw = img._shape[:2]
         lo = resize(img, np.int32(np.float32(hw)/octave_scale))
         hi = img-resize(lo, hw)
         img = lo

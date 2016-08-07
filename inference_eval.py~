@@ -85,7 +85,10 @@ def render_deepdream(t_obj, img0=img_noise,
     img = img0
     octaves = []
     for i in range(octave_n-1):
-        hw = img.shape[:2]
+        try:
+           hw = img.shape[:2]
+        except: 
+           hw = img._shape[:2]
         lo = resize(img, np.int32(np.float32(hw)/octave_scale))
         hi = img-resize(lo, hw)
         img = lo
