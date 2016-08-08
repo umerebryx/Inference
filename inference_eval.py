@@ -57,7 +57,7 @@ def tffunc(*argtypes):
             # Below is the exception I get:
             #ValueError: Cannot use the default session to evaluate tensor: the tensor's graph is different from the session's graph.
             # Pass an explicit session to `eval(session=sess)`.
-            return out.eval(dict(zip(placeholders, args)), session=Sess)
+            return out.eval(dict(zip(placeholders, args)), session=kw.get('session'))
         return wrapper
     return wrap
 
