@@ -61,7 +61,7 @@ def tffunc(*argtypes):
         return wrapper
     return wrap
 
-def T(layer):
+def T(layer, graph):
     '''Helper for getting layer output tensor'''
     return graph.get_tensor_by_name("%s:0"%layer)
 
@@ -77,7 +77,7 @@ def resize(img, size):
 #resize = tffunc(np.float32, np.int32)(resize)
 
 def render_deepdream(t_obj, img0=img_noise,
-                     iter_n=10, step=1.5, octave_n=4, octave_scale=1.4):
+                     iter_n=10, step=1.5, octave_n=4, octave_scale=1.4,session=None):
     t_score = tf.reduce_mean(t_obj) # defining the optimization objective
     t_grad = tf.gradients(t_score, t_input)[0] # behold the power of automatic differentiation!
 
@@ -150,7 +150,7 @@ def _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op):
     #for a in layers:
        #tensor.append(a.name)
     #for b in tensor:
-    render_deepdream(tf.square(T('inception_v3/mixed_8x8x2048b/concat')), img0)
+    render_deepdream(tf.square(T('inception_v3/mixed_8x8x2048b/concat', graph)), img0, session=sess)
 
 
 
